@@ -1,0 +1,25 @@
+{
+  "name": "sypress-start",
+  "version": "1.0.0",
+  "description": "cypressInstallingAndTests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxIvanskiy/cypress-start.git"
+  },
+  "keywords": [
+    "cypress"
+  ],
+  "author": "Max.Iv",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxIvanskiy/cypress-start/issues"
+  },
+  "homepage": "https://github.com/MaxIvanskiy/cypress-start#readme",
+  "devDependencies": {
+    "cypress": "^8.3.1"
+  }
+}
