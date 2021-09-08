@@ -5,13 +5,15 @@ const {
     Then
 } = require("cypress-cucumber-preprocessor/steps");
 
-const url = 'https://google.com'
+const srcUrl = 'https://google.com'
+
 Before(() => {
   
 });
 
+
 Given('I open Google page', () => {
-    cy.visit(url)
+    cy.visit(srcUrl)
 });
 
 Then(`I see {string} in the title`, (title) => {
@@ -36,7 +38,13 @@ Then("Press enter to find {string} with Google", (title) => {
     
     cy.url()
         .should('include', title)
-    
+        
     cy.get('input.gLFyf.gsfi')
         .should('have.value', title)
+});
+
+After(() => {
+    cy.visit(srcUrl)
+    cy.url()
+        .should('include', 'www.google.com')
 });
