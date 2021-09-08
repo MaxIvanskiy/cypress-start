@@ -11,15 +11,17 @@ Before(() => {
 });
 
 Given('I open Google page', () => {
-  cy.visit(url)
+    cy.visit(url)
 });
 
 Then(`I see {string} in the title`, (title) => {
-    cy.title().should('include', title)
+    cy.title()
+        .should('include', title)
 });
 
 Given('{string} page is opened', (title) => {
-    cy.url().should('include', title)
+    cy.url()
+        .should('include', title)
 });
   
 Then("Type {string} in the search field", (title) => {
@@ -32,9 +34,9 @@ Then("Press enter to find {string} with Google", (title) => {
     cy.get('input.gLFyf.gsfi')
         .type('{enter}')
     
-    cy.url().should('include', title)
+    cy.url()
+        .should('include', title)
     
     cy.get('input.gLFyf.gsfi')
         .should('have.value', title)
-    
 });
