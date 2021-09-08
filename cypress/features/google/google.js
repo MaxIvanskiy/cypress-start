@@ -43,8 +43,10 @@ Then("Press enter to find {string} with Google", (title) => {
         .should('have.value', title)
 });
 
-After(() => {
-    cy.visit(srcUrl)
-    cy.url()
-        .should('include', 'www.google.com')
-});
+
+// Home Work Automation 
+// WHAT APP 
+// сделать массив с данными из таблицы
+// через each посчитать их колличество
+// проверить содержимое на сходство
+// почитать проверки и методы в рамках should и expect
