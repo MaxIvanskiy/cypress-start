@@ -49,8 +49,6 @@ When('I click the button', () => {
         .and('not.have.class', 'btn-success')
         .click()
 })
-
-// проверять цвет и класс в одном then или разбивать на then -> and ??????????????????????????????????????????????
 Then('Button should have class btn-success', () => {
     cy.get('button')
         .contains('Button That Ignores DOM Click Event')
@@ -76,6 +74,8 @@ When ('I click green button', () => {
     cy.get('button#greenButton')
         .should('have.id', 'greenButton')
         .click()
+    cy.get('button#greenButton')
+        .should('be.visible')
 })
 Then ('Blue button is displayed', () => {
     cy.get('button#blueButton')
@@ -83,13 +83,17 @@ Then ('Blue button is displayed', () => {
         .click()
 })
 And ('Green button is under Blue button by z-index', () => {
-    cy.get('button#greenButton')
-        .parent('.spa-view')
-        .should('have.css', 'z-index', '1')
+    // cy.get('button#greenButton')
+    //     .parent('.spa-view')
+    //     .should('have.css', 'z-index', '1')
 
-    cy.get('button#blueButton')
-        .parent('.spa-view')
-        .should('have.css', 'z-index', '2')
+    // cy.get('button#blueButton')
+    //     .parent('.spa-view')
+    //     .should('have.css', 'z-index', '2')
+
+        cy.get('.spa-view').each(el => {
+            
+        })
 })
 
 
@@ -106,8 +110,6 @@ When ('I click Load Delays link', () => {
         .click()
 })
 Then ('I wait The load delays page is loaded', () => {
-    // Оба варианта работают, это правильный подход к ожиданию загрузки ????????????????????????????????????
-    // лучше проверять изменение урл или доступность кнопки на странице ????????????????????????????????????
     cy.location('pathname', {timeout: 5000})
         .should('include', '/loaddelay');
 
@@ -139,9 +141,6 @@ Then ('I find a button in the scroll view',  () => {
         .should('have.class', 'btn-primary')
         .click()
 })
-
-
-
 
 
 
@@ -186,19 +185,29 @@ Given('Opening page with Mouse Over test', () => {
     cy.visit('http://uitestingplayground.com/mouseover')
 })
 When('I click the Click me link', () => {
-    // Правильно ? или можно "убрать курсор" с предыдущего выбрвнного элемента ????????????????????????????????????????????????
-    cy.get('a.text-primary')
-        .click()
-    
-    cy.get('a.text-warning')
-        .click()
+    cy.contains('span#clickCount', 0)
+
+    cy.contains('Click me').click()
+    cy.contains('Click me').click()
+
+    // cy.get('a.text-primary')
+    //     .click()
+
+    // cy.get('a.text-warning')
+    //     .click()
 })
 Then('Counter text is changed to 2', () => {
     cy.contains('span#clickCount', 2)
 })
 
 
+// RERUN
 
+// export const hoverOverElement = (element) => {
+//     cy.get(element)
+//       .trigger('mouseover')
+//       .wait(250);  // time for browser to display tooltip
+//   };
 
 
 
@@ -218,12 +227,91 @@ When ('I click blue button', () => {
     cy.intercept('/ajaxdata').as('ajaxdata')
     cy.get('button#ajaxButton')
         .click()
-    // Лучше здать запрос в этом же when или в следующем and ????????????????????????????????????????????????????????????????????????
-    // cy.wait('@ajaxdata')
 })
 And ('I wait for the data loaded', () => {
     cy.wait('@ajaxdata')
 })
 Then ('I check loaded text', () => {
     cy.contains('p.bg-success', 'Data loaded with AJAX get request.')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Scenario: Client side delay
+Given ('Opening page with Client Side Delay test', () => {
+    cy.visit('http://uitestingplayground.com/clientdelay')
+})
+When ('I click button', () => {
+    cy.get('button#ajaxButton')
+        .click()
+})
+Then ('I wait for content load', () => {
+    cy.get('p.bg-success', { timeout: 60000 })
+        .contains('Data calculated on the client side.')
+})
+
+
+
+
+
+
+
+
+
+
+// Scenario: Text input
+Given ('Opening page with Text input test', () => {
+    cy.visit('http://uitestingplayground.com/textinput')
+})
+When ('I input test in the input field', () => {
+    cy.get('input#newButtonName')
+        .type('change button name')
+        .should('have.value', 'change button name')
+})
+And ('I press the button', () => {
+    cy.get('button#updatingButton')
+        .should('have.text', "Button That Should Change it's Name Based on Input Value")
+        .click()
+})
+Then ('The button name is changing', () => {
+    cy.get('button#updatingButton')
+        .should('have.text', 'change button name')
+})
+
+
+
+
+let chromeCPU;
+// Scenario: Dynamic table
+Given ('Opening page with Dynamic table test', () => {
+    cy.visit('http://uitestingplayground.com/dynamictable')
+})
+When ('I find the Chrome value in table', () => {
+    // cy.get('div[role=row]').each(el => {
+
+    // })
+    cy.contains('div[role=row]', 'Chrome')
+        .children()
+        .contains('%')
+        .invoke('text')
+        .then(text => {
+            chromeCPU = text;
+        })
+})
+Then ('I compare load CPU value', () => {
+    cy.get('p.bg-warning')
+        .should('contain', chromeCPU)
 })
