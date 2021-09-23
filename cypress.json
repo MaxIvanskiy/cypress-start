@@ -1,5 +1,6 @@
 {
     "testFiles" : "**/*.feature",
     "integrationFolder" : "cypress/features",
-    "supportFile": "cypress/support/index.js"
+    "supportFile": "cypress/support/index.js",
+    "baseUrl": "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login"
 }

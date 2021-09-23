@@ -1,5 +1,11 @@
-import searchEngine from './searchEngine';
+import loginPage from './loginPage';
+import customerLoginPage from './customerLoginPage';
+import customerAccountPage from './customerAccountPage';
+import transactionsPage from './transactionsPage';
 
 module.exports = {
-    searchEngine: searchEngine
+    loginPage : loginPage,
+    customerLoginPage : customerLoginPage,
+    customerAccountPage : customerAccountPage,
+    transactionsPage : transactionsPage
 };
